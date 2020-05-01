@@ -1,0 +1,36 @@
+package com.bhaskar.aop;
+
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+
+import com.bhaskar.aop.dao.AccountDAO;
+import com.bhaskar.aop.dao.AopConfig;
+import com.bhaskar.aop.dao.MembershipDAO;
+
+public class MainApp {
+
+	public static void main(String[] args) {
+		
+		//read spring config java class 
+		AnnotationConfigApplicationContext context=
+				new AnnotationConfigApplicationContext(AopConfig.class);
+		
+		//get the bean from container
+		AccountDAO theAccoutDAO=context.getBean("accountDAO", AccountDAO.class);
+		
+		MembershipDAO theMembershipDAO=context.getBean("membershipDAO", MembershipDAO.class);
+		
+		Account myAccount=new Account();
+		
+		//call the bussiness method
+       theAccoutDAO.addAccount(myAccount, true);
+       theAccoutDAO.doWork();
+       
+       theMembershipDAO.addSilly();
+       theMembershipDAO.goToSleep();
+       
+     
+       //close the context
+       context.close();
+	}
+
+}
